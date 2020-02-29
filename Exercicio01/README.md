@@ -11,7 +11,7 @@
 ___
 
 <p align="center" >
-<img src='https://images.noticiasautomotivas.com.br/img/f/volkswagen-polo-virtus-beats-3-1200x939.jpg' width="70%" title="hover text">
+<img src='https://github.com/patrickhl94/Disciplina_Faculdade_Dev_Web_II/blob/master/Exercicio01/screenshots/Captura%20de%20tela%20de%202020-02-28%2023-11-58.png?raw=true' width="100%" title="hover text">
 </p>
 
 ___
