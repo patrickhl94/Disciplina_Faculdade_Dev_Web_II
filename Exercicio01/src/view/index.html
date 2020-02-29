@@ -70,7 +70,8 @@
 
   <script>
 
-    getData()
+    var baseURL = 'http://localhost:3300/';
+    getData();
 
     var ctx = document.getElementById('myChart').getContext('2d');
     Chart.defaults.global.defaultFontColor = 'white';
@@ -133,21 +134,21 @@
       fileBlob.append('text', textAreaValue);
       fileBlob.append('numberWorks', numberWorksInput);
 
-      const data = await fetch('http://localhost:3333/updated', {
+      const data = await fetch(`${baseURL}updated`, {
         mode: 'cors',
         method: 'POST',
 
         body: fileBlob
       });
-      const respDataJSON = await data.json()
-      updateChart(respDataJSON)
+      const respDataJSON = await data.json();
+      updateChart(respDataJSON);
 
     }
 
     async function getData() {
-      const data = await fetch('http://localhost:3333/array-works');
+      const data = await fetch(`${baseURL}array-works`);
       const dataResp = await data.json();
-      updateChart(dataResp)
+      updateChart(dataResp);
       return dataResp;
     }
 
