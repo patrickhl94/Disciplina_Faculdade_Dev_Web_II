@@ -1,4 +1,4 @@
-# Repósitorio destinado a armazenar os trabalhos realizados em faculdade da disciplina de Desenvolvimento de Aplicações Web II 
+# Repositório para armazenar os trabalhos realizados em faculdade da disciplina de Desenvolvimento de Aplicações Web II 
 
 ## Este repositório está separado por pastas de acordo com o exercicio/trabalho:
  ### Ex: 
