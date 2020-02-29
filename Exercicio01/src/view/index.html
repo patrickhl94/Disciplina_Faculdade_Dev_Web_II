@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <title>Document</title>
+</head>
+
+<body class="bg-dark">
+
+  <div class="container-fluid">
+    <div class="row py-3 px-3" style="background-color: black; font-family: monospace;">
+      <h1 class="mx-auto text-center py-2" style="color: dark;"><strong>CONTADOR DE PALAVRAS REPETIDAS </strong></h1>
+    </div>
+
+    <div class="row pt-5">
+
+      <div class="col-md my-4">
+
+        <form onsubmit="updateData()" class="mx-4">
+          <div class="row my-3 px-3">
+            <p class="text-light text-justify" style="font-size: 14pt;">
+              Por padrão, essa aplicação já contém um arquivo .txt em memória que
+              é automaticamente iniciado ao executar esta aplicação.
+            </p>
+            <p class="text-light text-justify" style="font-size: 14pt;">
+              Contudo, é possível testar outros arquivos .txt ou digitar um texto manualmente
+              para realizar a pesquisa das palavras mais repetidas.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label class="text-light" for="numberWorksInput">Insira o número mínimo de letras das palavras a serem
+              pesquisadas:</label>
+            <input type="number" class="form-control" style="width: 100px;" id="numberWorksInput">
+          </div>
+          <div class="form-group">
+            <label class="text-light" for="fileInput">Insira o arquivo .txt</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="fileInput" onchange="updateInputFIle()">
+              <label class="custom-file-label" id="labelInputFile" for="fileInput">arraste aqui...</label>
+            </div>
+          </div>
+          <div class="form-group mt-4">
+            <label class="text-light" for="textArea">Digite o texto para pesquisa</label>
+            <textarea class="form-control" id="textArea" rows="5"></textarea>
+          </div>
+          <button type="submit" class="btn btn-secondary">Pesquisar</button>
+        </form>
+      </div>
+
+      <div class="col-md-8">
+        <div class="container">
+          <canvas id="myChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div
+    style="font-family: monospace; height: 80px; width: 100%; background-color: black; bottom: 0px; position: absolute;">
+    <h1 class="mx-auto text-center my-3" style="color: dark;"> <strong>TRABALHO 01 - DESENVOLVIMENTO WEB II </strong>
+    </h1>
+  </div>
+
+  <script>
+
+    getData()
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    Chart.defaults.global.defaultFontColor = 'white';
+    Chart.defaults.global.defaultFontSize = 15;
+    Chart.defaults.global.elements.point.backgroundColor = 'white';
+    Chart.defaults.global.elements.point.pintStyle = 'cross';
+    var chart = new Chart(ctx, {
+
+      // The type of chart we want to create
+      type: 'line',
+      // The data for our dataset
+      data: {
+        labels: ['Carregando...', 'Carregando...', 'Carregando...', 'Carregando...', 'Carregando...',
+          'Carregando...', 'Carregando...', 'Carregando...', 'Carregando...', 'Carregando...'],
+        datasets: [{
+          label: 'Número de repetições da palavra',
+          backgroundColor: '#FD9902',
+          borderColor: '#BA3801',
+          data: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+        }]
+      },
+
+      // Configuration options go here
+      options: {
+        legend: {
+          display: true,
+          labels: {
+            fontColor: 'white',
+            fontSize: 20,
+          },
+        },
+        tooltips: {
+          enabled: true,
+          titleFontSize: 20,
+          bodyFontSize: 17
+        },
+      }
+    });
+
+    function updateInputFIle() {
+      let file = document.getElementById('fileInput').files[0];
+      document.getElementById('labelInputFile').innerText = file.name;
+
+      if (file.type !== 'text/plain') {
+        document.getElementById('labelInputFile').style.color = 'red';
+      } else {
+        document.getElementById('labelInputFile').style.color = 'green';
+      }
+    }
+
+    async function updateData() {
+      event.preventDefault();
+
+      let numberWorksInput = document.getElementById('numberWorksInput').value;
+      let textAreaValue = document.getElementById('textArea').value;
+      let fileInput = document.getElementById('fileInput').files[0];
+
+      let fileBlob = new FormData();
+      fileBlob.append('file', fileInput);
+      fileBlob.append('text', textAreaValue);
+      fileBlob.append('numberWorks', numberWorksInput);
+
+      const data = await fetch('http://localhost:3333/updated', {
+        mode: 'cors',
+        method: 'POST',
+
+        body: fileBlob
+      });
+      const respDataJSON = await data.json()
+      updateChart(respDataJSON)
+
+    }
+
+    async function getData() {
+      const data = await fetch('http://localhost:3333/array-works');
+      const dataResp = await data.json();
+      updateChart(dataResp)
+      return dataResp;
+    }
+
+    function updateChart(dataResp) {
+      chart.data.datasets[0].data = [];
+      chart.data.labels = [];
+
+      for (let i = 0; i < 10; i++) {
+        chart.data.datasets[0].data.push(dataResp[i].amount);
+        chart.data.labels.push(dataResp[i].name);
+      }
+      chart.update();
+    }
+
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
