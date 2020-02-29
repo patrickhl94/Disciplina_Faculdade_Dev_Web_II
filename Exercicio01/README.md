@@ -1,6 +1,6 @@
 # **Exercício 01 da Disciplina de Dev. Web II**
 
-### O intuito deste exercício é colocar em prática os conhecimentos obtidos em sala de aula, na plataforma de aplicação **`NODE.js`**.
+### O intuito deste exercício é colocar em prática os conhecimentos obtidos em sala de aula, na plataforma de aplicação **`Node.js`**.
 
 
 ### **Problema passado pelo professor:**
