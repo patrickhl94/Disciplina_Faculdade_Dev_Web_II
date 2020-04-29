@@ -18,6 +18,7 @@ interface Request {
   street: string;
   address_number: number;
   zip_code: string;
+  is_health_area: boolean;
 }
 
 class CreateUserService {
@@ -35,7 +36,25 @@ class CreateUserService {
     street,
     address_number,
     zip_code,
+    is_health_area,
   }: Request): Promise<User> {
+    if (
+      !name ||
+      !cellphone ||
+      !birth ||
+      !weight ||
+      !height ||
+      !state ||
+      !city ||
+      !neighborhood ||
+      !street ||
+      !address_number ||
+      !zip_code ||
+      !is_health_area
+    ) {
+      throw new AppError('Empty mandatory data');
+    }
+
     const usersRepository = getRepository(User);
 
     let group_of_risk = false;
@@ -50,15 +69,22 @@ class CreateUserService {
 
     const imc = weight / height ** 2;
 
-    if (
-      health_problems.toUpperCase() === 'DOENÇAS RESPIRATORIAS' ||
-      health_problems.toUpperCase() === 'INSUFICIENCIA RENAL' ||
-      health_problems.toUpperCase() === 'DOENÇAS CARDIOVASCULARES' ||
-      health_problems.toUpperCase() === 'DIABETES' ||
-      health_problems.toUpperCase() === 'HIPERTENSAO' ||
-      imc >= 30 ||
-      age > 60
-    ) {
+    const arrayHeaalthProblems = health_problems.split(', ');
+
+    arrayHeaalthProblems.map(disease => {
+      if (
+        disease.toUpperCase() === 'DOENÇAS RESPIRATORIAS' ||
+        disease.toUpperCase() === 'INSUFICIENCIA RENAL' ||
+        disease.toUpperCase() === 'DOENÇAS CARDIOVASCULARES' ||
+        disease.toUpperCase() === 'DIABETES' ||
+        disease.toUpperCase() === 'HIPERTENSAO'
+      ) {
+        group_of_risk = true;
+      }
+      return '';
+    });
+
+    if (imc >= 30 || age > 60) {
       group_of_risk = true;
     }
 
@@ -77,6 +103,7 @@ class CreateUserService {
       address_number,
       zip_code,
       group_of_risk,
+      is_health_area,
     });
 
     await usersRepository.save(user);

@@ -53,6 +53,9 @@ class User {
   @Column()
   group_of_risk: boolean;
 
+  @Column()
+  is_health_area: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
