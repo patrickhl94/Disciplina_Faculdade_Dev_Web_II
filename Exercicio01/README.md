@@ -31,5 +31,5 @@ ___
   * Prettier (Formatar o código)
 
 ### **Instruções para executar a aplicação**
-Após baixar a pasta `Exercicio01`, na raiz desta pasta executar o comando `npm install`. Após realizar este comando, abrir o navegador e entrar no endereço (`http://localhost:3300`).
+Após baixar a pasta `Exercicio01`, na raiz desta pasta executar o comando `npm install`. Após realizar este comando, executar o comando `npm start`, abrir o navegador e entrar no endereço (`http://localhost:3300`).
   
