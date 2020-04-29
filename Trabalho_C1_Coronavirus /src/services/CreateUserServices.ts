@@ -1,4 +1,5 @@
 import { getRepository } from 'typeorm';
+import { parseISO, differenceInYears, isValid } from 'date-fns';
 
 import AppError from '../errors/AppError';
 import User from '../models/User';
@@ -35,50 +36,52 @@ class CreateUserService {
     address_number,
     zip_code,
   }: Request): Promise<User> {
-    try {
-      const usersRepository = getRepository(User);
+    const usersRepository = getRepository(User);
 
-      let group_of_risk = false;
-      const imc = weight / height ** 2;
-      // SE DER TEMPO USAR A BIBLIOTECA date-fns PARA CALCULAR A IDADE COM MAIS PRECISÃO
-      const idade =
-        Number(new Date().getFullYear()) - Number(birth.substring(0, 4));
+    let group_of_risk = false;
 
-      if (
-        health_problems.toUpperCase() === 'DOENÇAS RESPIRATORIAS' ||
-        health_problems.toUpperCase() === 'INSUFICIENCIA RENAL' ||
-        health_problems.toUpperCase() === 'DOENÇAS CARDIOVASCULARES' ||
-        health_problems.toUpperCase() === 'DIABETES' ||
-        health_problems.toUpperCase() === 'HIPERTENSAO' ||
-        imc >= 30 ||
-        idade > 60
-      ) {
-        group_of_risk = true;
-      }
+    const parseDate = parseISO(birth);
 
-      const user = usersRepository.create({
-        name,
-        email,
-        cellphone,
-        birth,
-        weight,
-        height,
-        health_problems,
-        state,
-        city,
-        neighborhood,
-        street,
-        address_number,
-        zip_code,
-        group_of_risk,
-      });
-
-      await usersRepository.save(user);
-
-      return user;
-    } catch (error) {
-      throw new AppError('Error when registering the user');
+    if (!isValid(parseDate)) {
+      throw new AppError('Date invalid');
     }
+
+    const age = differenceInYears(new Date(), parseDate);
+
+    const imc = weight / height ** 2;
+
+    if (
+      health_problems.toUpperCase() === 'DOENÇAS RESPIRATORIAS' ||
+      health_problems.toUpperCase() === 'INSUFICIENCIA RENAL' ||
+      health_problems.toUpperCase() === 'DOENÇAS CARDIOVASCULARES' ||
+      health_problems.toUpperCase() === 'DIABETES' ||
+      health_problems.toUpperCase() === 'HIPERTENSAO' ||
+      imc >= 30 ||
+      age > 60
+    ) {
+      group_of_risk = true;
+    }
+
+    const user = usersRepository.create({
+      name,
+      email,
+      cellphone,
+      birth,
+      weight,
+      height,
+      health_problems,
+      state,
+      city,
+      neighborhood,
+      street,
+      address_number,
+      zip_code,
+      group_of_risk,
+    });
+
+    await usersRepository.save(user);
+
+    return user;
   }
 }
 
