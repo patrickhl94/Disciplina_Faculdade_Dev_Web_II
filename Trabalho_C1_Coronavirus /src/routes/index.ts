@@ -109,7 +109,14 @@ routes.patch('/users/:id', async (request, response) => {
 });
 
 routes.get('/filters', async (request, response) => {
-  const { city, state, neighborhood, street } = request.query;
+  const {
+    city,
+    state,
+    neighborhood,
+    street,
+    is_health_area,
+    group_of_risk,
+  } = request.query;
   const userReposiory = getRepository(User);
 
   let where = {};
@@ -118,6 +125,8 @@ routes.get('/filters', async (request, response) => {
   state ? (where = { state }) : {};
   neighborhood ? (where = { neighborhood }) : {};
   street ? (where = { street }) : {};
+  is_health_area ? (where = { is_health_area }) : {};
+  group_of_risk ? (where = { group_of_risk }) : {};
 
   const users = await userReposiory.find({
     where,
