@@ -45,11 +45,11 @@ class CreateUserService {
         Number(new Date().getFullYear()) - Number(birth.substring(0, 4));
 
       if (
-        health_problems.toUpperCase() === 'DOENÇAS RESPIRATÓRIAS' ||
-        health_problems.toUpperCase() === 'INSUFICIÊNCIA RENAL' ||
+        health_problems.toUpperCase() === 'DOENÇAS RESPIRATORIAS' ||
+        health_problems.toUpperCase() === 'INSUFICIENCIA RENAL' ||
         health_problems.toUpperCase() === 'DOENÇAS CARDIOVASCULARES' ||
         health_problems.toUpperCase() === 'DIABETES' ||
-        health_problems.toUpperCase() === 'HIPERTENSÃO' ||
+        health_problems.toUpperCase() === 'HIPERTENSAO' ||
         imc >= 30 ||
         idade > 60
       ) {
