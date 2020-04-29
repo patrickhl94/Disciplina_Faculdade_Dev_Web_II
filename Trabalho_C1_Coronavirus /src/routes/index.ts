@@ -1,10 +1,13 @@
+/* eslint-disable no-unused-expressions */
 import { Router } from 'express';
 import { getRepository } from 'typeorm';
 import { isUuid } from 'uuidv4';
 
-import CreateUserService from '../services/CreateUserServices';
-import User from '../models/User';
 import AppError from '../errors/AppError';
+import User from '../models/User';
+
+import UpdateUserService from '../services/UpdateUserServices';
+import CreateUserService from '../services/CreateUserServices';
 
 const routes = Router();
 
@@ -13,7 +16,7 @@ routes.post('/users', async (request, response) => {
 
   const user = await createUser.execute(request.body);
 
-  return response.json(user);
+  return response.status(201).json(user);
 });
 
 routes.get('/users', async (request, response) => {
@@ -41,4 +44,85 @@ routes.get('/users/:id', async (request, response) => {
   return response.json(user);
 });
 
+routes.delete('/users/:id', async (request, response) => {
+  const { id } = request.params;
+
+  if (!isUuid(id)) {
+    throw new AppError('Format ID invalid', 401);
+  }
+
+  const userRepository = getRepository(User);
+
+  const { affected } = await userRepository.delete({ id });
+
+  if (!affected) {
+    throw new AppError('Not found User with the ID');
+  }
+
+  return response.json({ message: 'User deleted with success' });
+});
+
+routes.patch('/users/:id', async (request, response) => {
+  const { id } = request.params;
+  const {
+    name,
+    email,
+    cellphone,
+    birth,
+    weight,
+    height,
+    health_problems,
+    state,
+    city,
+    neighborhood,
+    street,
+    address_number,
+    zip_code,
+    is_health_area,
+  } = request.body;
+
+  if (!isUuid(id)) {
+    throw new AppError('Format ID invalid', 401);
+  }
+
+  const updateUserService = new UpdateUserService();
+
+  const user = await updateUserService.execute({
+    id,
+    name,
+    email,
+    cellphone,
+    birth,
+    weight,
+    height,
+    health_problems,
+    state,
+    city,
+    neighborhood,
+    street,
+    address_number,
+    zip_code,
+    is_health_area,
+  });
+
+  return response.json(user);
+});
+
+routes.get('/filters', async (request, response) => {
+  const { city, state, neighborhood, street } = request.query;
+  const userReposiory = getRepository(User);
+
+  let where = {};
+
+  city ? (where = { city }) : {};
+  state ? (where = { state }) : {};
+  neighborhood ? (where = { neighborhood }) : {};
+  street ? (where = { street }) : {};
+
+  const users = await userReposiory.find({
+    where,
+  });
+
+  return response.json(users);
+});
 export default routes;
