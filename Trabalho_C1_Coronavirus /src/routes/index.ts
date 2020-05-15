@@ -21,8 +21,12 @@ routes.post('/users', async (request, response) => {
 
 routes.get('/users', async (request, response) => {
   const userReposiory = getRepository(User);
+  const { page = 1 } = request.query;
 
-  const usersAndCount = await userReposiory.findAndCount();
+  const usersAndCount = await userReposiory.findAndCount({
+    take: 5,
+    skip: (Number(page) - 1) * 5,
+  });
 
   return response.json(usersAndCount);
 });
