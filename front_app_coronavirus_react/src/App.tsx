@@ -2,12 +2,12 @@ import React from 'react';
 
 import GlobalStyles from './styles/global';
 
-import Home from './pages/Home';
+import Router from './routes';
 
 const App: React.FC = () => {
   return (
     <>
-      <Home />
+      <Router />
       <GlobalStyles />
     </>
   );
