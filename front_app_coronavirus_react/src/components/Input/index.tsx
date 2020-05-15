@@ -2,7 +2,12 @@ import React, { InputHTMLAttributes, SelectHTMLAttributes } from 'react';
 
 import { Label, Select } from './styles';
 
-type InputProps = InputHTMLAttributes<HTMLInputElement>;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  handleChange(val: string): void;
+}
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  handleChange(val: string): void;
+}
 
 export const InputMax: React.FC<InputProps> = ({ name, type, placeholder }) => {
   return (
@@ -18,27 +23,31 @@ export const InputMin: React.FC<InputProps> = ({
   type,
   placeholder,
   maxLength,
+  step,
+  value,
+  handleChange,
 }) => {
   return (
     <Label widthStyle="min">
       {name}
       <input
+        value={value}
         id={name}
         type={type}
         placeholder={placeholder}
         maxLength={maxLength}
+        step={step}
+        onChange={event => handleChange(event.target.value)}
       />
     </Label>
   );
 };
 
-export const SelectInput: React.FC<SelectHTMLAttributes<HTMLSelectElement>> = ({
-  name,
-}) => {
+export const SelectInput: React.FC<SelectProps> = ({ name, handleChange }) => {
   return (
     <Select>
       {name}
-      <select>
+      <select onChange={event => handleChange(event.target.value)}>
         <option value="nao">NÃO</option>
         <option value="sim">SIM</option>
       </select>
