@@ -20,6 +20,7 @@ ${props =>
         width: 48%;
       `};
 }
+
   input {
     color: #111;
     font-size: 18px;
@@ -30,6 +31,13 @@ ${props =>
     background: #6f2725;
     margin-bottom: 10px;
     margin-top: 5px;
+
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+        margin: 0;
+    }
+
 `;
 
 export const Select = styled.div`
