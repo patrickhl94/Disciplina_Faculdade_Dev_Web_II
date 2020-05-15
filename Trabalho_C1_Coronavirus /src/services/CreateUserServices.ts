@@ -49,8 +49,7 @@ class CreateUserService {
       !neighborhood ||
       !street ||
       !address_number ||
-      !zip_code ||
-      !is_health_area
+      !zip_code
     ) {
       throw new AppError('Empty mandatory data');
     }
