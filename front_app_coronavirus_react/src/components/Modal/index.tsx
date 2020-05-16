@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { FiXCircle } from 'react-icons/fi';
+import { format, parseISO, formatISO } from 'date-fns';
 
 import { Container, ModalBody, ModalHeader } from './styles';
 import { PropModal } from '../../pages/List';
@@ -17,6 +18,8 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, dataProp }) => {
     return setIsOpenState(true);
   }, [modalOpen]);
 
+  console.log();
+
   return (
     <Container isOpenState={isOpenState} isOpenProp={modalOpen}>
       <ModalBody>
@@ -29,7 +32,12 @@ const Modal: React.FC<ModalProps> = ({ modalOpen, dataProp }) => {
         </section>
         <section>
           <strong>Data nascimento</strong>
-          <span>{dataProp?.birth}</span>
+          <span>
+            {format(
+              new Date(parseISO(dataProp?.birth || '1900-01-01')),
+              'dd-MM-yyyy',
+            )}
+          </span>
         </section>
         <section>
           <strong>E-mail</strong>
