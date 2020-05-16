@@ -2,10 +2,6 @@ import styled, { keyframes } from 'styled-components';
 
 import covidBackground from '../../assets/covidBackground2.jpg';
 
-interface ButtonProps {
-  displayLoader?: boolean;
-}
-
 export const Container = styled.div`
   display: flex;
   height: 100vh;
@@ -44,16 +40,17 @@ export const CardLeft = styled.div`
 
     h1 {
       color: #999;
-      margin-bottom: 35px;
+      margin-bottom: 18px;
     }
 
-    > div {
-      display: flex;
-      justify-content: flex-end;
-      small {
-        font-weight: 500;
-        margin-top: 5px;
-        color: #ea0000;
+    > svg {
+      margin-bottom: 18px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s 0.2s ease-in-out;
+
+      &:hover {
+        background-color: #113a00;
       }
     }
   }
@@ -67,37 +64,6 @@ export const CardRight = styled.div`
 export const ContainerRow = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-export const ButtonCadastrar = styled.button<ButtonProps>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  background: #999;
-  font-weight: 700;
-  margin-top: 25px;
-  color: #222;
-  font-size: 23px;
-  padding: 8px;
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  transition: background-color 0.2s;
-
-  span {
-    display: ${props => props.displayLoader && 'none'};
-  }
-
-  svg {
-    margin-left: 15px;
-    display: ${props => !props.displayLoader && 'none'};
-  }
-
-  &:hover {
-    background-color: #777;
-  }
 `;
 
 export const LinkListagem = styled.footer`
@@ -114,7 +80,7 @@ export const LinkListagem = styled.footer`
     border-right-width: 6px;
     border-radius: 9px;
     padding: 8px;
-    transition: background-color 0.2s;
+    transition: all 0.2s 0.2s ease-in-out;
     animation: ${animateLeft} 2s;
 
     color: #fff;
@@ -175,7 +141,7 @@ export const AreaIcons = styled.div`
   svg {
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.2s;
+    transition: all 0.2s 0.2s ease-in-out;
     padding: 2px;
 
     &:hover {
@@ -199,5 +165,30 @@ export const ContainerPage = styled.div`
     margin: 0 20px;
     border-radius: 5px;
     cursor: pointer;
+  }
+`;
+
+export const ContainerSubHeader = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 5px;
+  margin-right: 5px;
+  align-items: center;
+  margin-bottom: 18px;
+`;
+
+export const CasesConfirmed = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  color: #bbb;
+  font-weight: 700;
+  font-size: 21px;
+
+  svg {
+    margin-left: 12px;
   }
 `;
