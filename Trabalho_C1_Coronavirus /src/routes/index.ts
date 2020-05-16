@@ -19,19 +19,7 @@ routes.post('/users', async (request, response) => {
   return response.status(201).json(user);
 });
 
-routes.get('/users', async (request, response) => {
-  const userReposiory = getRepository(User);
-  const { page = 1 } = request.query;
-
-  const usersAndCount = await userReposiory.findAndCount({
-    take: 5,
-    skip: (Number(page) - 1) * 5,
-  });
-
-  return response.json(usersAndCount);
-});
-
-routes.get('/users/:id', async (request, response) => {
+routes.get('/user/:id', async (request, response) => {
   const { id } = request.params;
   const userReposiory = getRepository(User);
 
@@ -112,7 +100,7 @@ routes.patch('/users/:id', async (request, response) => {
   return response.json(user);
 });
 
-routes.get('/filters', async (request, response) => {
+routes.get('/users/:page', async (request, response) => {
   const {
     city,
     state,
@@ -121,6 +109,8 @@ routes.get('/filters', async (request, response) => {
     is_health_area,
     group_of_risk,
   } = request.query;
+
+  const { page = 1 } = request.params;
   const userReposiory = getRepository(User);
 
   let where = {};
@@ -132,8 +122,10 @@ routes.get('/filters', async (request, response) => {
   is_health_area ? (where = { is_health_area }) : {};
   group_of_risk ? (where = { group_of_risk }) : {};
 
-  const users = await userReposiory.find({
+  const users = await userReposiory.findAndCount({
     where,
+    take: 5,
+    skip: (Number(page) - 1) * 5,
   });
 
   return response.json(users);
