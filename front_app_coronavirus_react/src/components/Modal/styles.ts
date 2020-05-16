@@ -98,3 +98,28 @@ export const ModalHeader = styled.div`
     }
   }
 `;
+
+export const Label = styled.label`
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  color: #444;
+  font-weight: 700;
+  border-bottom: 5px;
+  background: #a3d3bf;
+  flex-direction: row;
+  font-size: 22px;
+  align-items: center;
+
+  input {
+    background: transparent;
+    border: 0;
+    background: #77ba9e;
+    margin-left: 15px;
+    padding: 5px;
+    border-radius: 7px;
+    border-bottom-color: #288c68;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+  }
+`;
