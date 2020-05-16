@@ -43,11 +43,18 @@ export const InputMin: React.FC<InputProps> = ({
   );
 };
 
-export const SelectInput: React.FC<SelectProps> = ({ name, handleChange }) => {
+export const SelectInput: React.FC<SelectProps> = ({
+  name,
+  handleChange,
+  value,
+}) => {
   return (
     <Select>
       {name}
-      <select onChange={event => handleChange(event.target.value)}>
+      <select
+        value={value}
+        onChange={event => handleChange(event.target.value)}
+      >
         <option value="nao">NÃO</option>
         <option value="sim">SIM</option>
       </select>
