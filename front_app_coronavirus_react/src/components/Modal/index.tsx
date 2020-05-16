@@ -2,12 +2,14 @@ import React, { useState, useCallback } from 'react';
 import { FiXCircle } from 'react-icons/fi';
 
 import { Container, ModalBody, ModalHeader } from './styles';
+import { PropModal } from '../../pages/List';
 
 interface ModalProps {
   modalOpen: boolean;
+  dataProp?: PropModal;
 }
 
-const Modal: React.FC<ModalProps> = ({ modalOpen }) => {
+const Modal: React.FC<ModalProps> = ({ modalOpen, dataProp }) => {
   const [isOpenState, setIsOpenState] = useState(true);
 
   const closeModal = useCallback(() => {
@@ -23,59 +25,59 @@ const Modal: React.FC<ModalProps> = ({ modalOpen }) => {
         </ModalHeader>
         <section>
           <strong>Nome</strong>
-          <span>Patrick Lima</span>
+          <span>{dataProp?.name}</span>
         </section>
         <section>
           <strong>Data nascimento</strong>
-          <span>Sim</span>
+          <span>{dataProp?.birth}</span>
         </section>
         <section>
           <strong>E-mail</strong>
-          <span>patrick@email.com</span>
+          <span>{dataProp?.email}</span>
         </section>
         <section>
           <strong>Celular</strong>
-          <span>Sim</span>
+          <span>{dataProp?.cellphone}</span>
         </section>
         <section>
           <strong>Altura</strong>
-          <span>Sim</span>
+          <span>{dataProp?.height}</span>
         </section>
         <section>
           <strong>Peso</strong>
-          <span>Sim</span>
+          <span>{dataProp?.weight}</span>
         </section>
         <section>
           <strong>Grupo de risco?</strong>
-          <span>Não</span>
+          <span>{dataProp?.group_of_risk ? 'Sim' : 'Não'}</span>
         </section>
         <section>
           <strong>Problemas de Saúde</strong>
-          <span>Sim</span>
+          <span>{dataProp?.health_problems}</span>
         </section>
         <section>
           <strong>Profissional da área da saúde?</strong>
-          <span>Não</span>
+          <span>{dataProp?.is_health_area ? 'Sim' : 'Não'}</span>
         </section>
         <section>
           <strong>CEP</strong>
-          <span>Sim</span>
+          <span>{dataProp?.zip_code}</span>
         </section>
         <section>
           <strong>Estado</strong>
-          <span>Sim</span>
+          <span>{dataProp?.state}</span>
         </section>
         <section>
           <strong>Bairro</strong>
-          <span>Sim</span>
+          <span>{dataProp?.neighborhood}</span>
         </section>
         <section>
           <strong>Logradouro</strong>
-          <span>Sim</span>
+          <span>{dataProp?.street}</span>
         </section>
         <section>
           <strong>N°</strong>
-          <span>Sim</span>
+          <span>{dataProp?.address_number}</span>
         </section>
       </ModalBody>
     </Container>
